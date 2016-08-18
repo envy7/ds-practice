@@ -9,10 +9,10 @@ struct node
 };
  
 // Function to reverse the linked list 
-static void reverse(struct node** head_ref)
+struct node* reverse(struct node* head)
 {
     struct node* prev   = NULL;
-    struct node* current = *head_ref;
+    struct node* current = head;
     struct node* next;
     while (current != NULL)
     {
@@ -21,37 +21,44 @@ static void reverse(struct node** head_ref)
         prev = current;
         current = next;
     }
-    *head_ref = prev;
+    head = prev;
+    return head;
 }
 
-void recursiveReverse(struct node** head_ref)
-{
-    struct node* first;
-    struct node* rest;
+// 1->2->3->4
+
+// void recursiveReverse(struct node** head)
+// {     
+//     // printf("%d\n", head->data);
+//     struct node* first;
+//     struct node* rest;
       
-    if (*head_ref == NULL)
-       return;   
+//     /* empty list */
+//     if (*head == NULL)
+//        return;   
  
-    first = *head_ref;  
-    rest  = first->next;
+//     first = *head;  
+//     rest  = first->next;
  
-    if (rest == NULL)
-       return;   
+//      // List has only one node 
+//     if (rest == NULL)
+//        return;   
  
-    recursiveReverse(&rest);
-
-    first->next->next  = first;  
-    first->next  = NULL;          
-    *head_ref = rest;              
-}
+//     /* reverse the rest list and put the first element at the end */
+//     recursiveReverse(&rest);
+//     rest->next  = first;  
+//     first->next  = NULL;          
+//     *head = rest;    
+// }
  
-void push(struct node** head_ref, int new_data)
+struct node* push(struct node* head, int new_data)
 {
     
     struct node* new_node = (struct node*) malloc(sizeof(struct node));
     new_node->data  = new_data;
-    new_node->next = (*head_ref);    
-    (*head_ref)    = new_node;
+    new_node->next = head;
+    head = new_node;    
+    return head;
 }
 
 void printList(struct node *head)
@@ -70,16 +77,17 @@ int main()
     /* Start with the empty list */
     struct node* head = NULL;
    
-     push(&head, 20);
-     push(&head, 4);
-     push(&head, 15); 
-     push(&head, 85);      
+     head = push(head, 20);
+     head = push(head, 4);
+     head = push(head, 15); 
+     head = push(head, 85);      
      
      printList(head);    
-     reverse(&head);                      
+     head = reverse(head);                      
      printf("\n Reversed Linked list \n");
      printList(head);
-     recursiveReverse(&head);
-     printf("\n Original List \n");
-     printList(head);    
+     // recursiveReverse(&head);
+     // printf("\n Original List \n");
+     // printList(head);    
 }
+
